@@ -3,7 +3,14 @@ import type { NextPage } from "next";
 const Home: NextPage = () => {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <section className="grid justify-center">
+        <button
+          className=" btn btn-accent"
+          onClick={() => (window.location.href = "/api/twitter")}
+        >
+          Add Twitter Access
+        </button>
+      </section>
     </>
   );
 };

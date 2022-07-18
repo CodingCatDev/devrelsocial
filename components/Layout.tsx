@@ -1,12 +1,10 @@
-import { Account } from "appwrite";
-import { useEffect } from "react";
-import { useAppwrite } from "../hooks/useAppwriteAccount";
+import { useAppwrite } from "@/hooks/useAppwriteAccount";
 
 export const Layout = ({ children }: { children: JSX.Element }) => {
   const { user, deleteSessions, createSession } = useAppwrite();
 
   return (
-    <div className="m-1 lg:m-4 grid gap-1 lg:gap-4">
+    <div className="grid gap-1 m-1 lg:m-4 lg:gap-4">
       <header>
         <div className="navbar bg-base-100">
           <div className="flex-none">
@@ -27,10 +25,10 @@ export const Layout = ({ children }: { children: JSX.Element }) => {
             </button>
           </div>
           <div className="flex-1">
-            <a className="btn btn-ghost normal-case text-xl">Dev Rel Social</a>
+            <a className="text-xl normal-case btn btn-ghost">Dev Rel Social</a>
           </div>
           <div className="flex-none">
-            <ul className="menu menu-horizontal p-0">
+            <ul className="p-0 menu menu-horizontal">
               <li>
                 <a>Item 1</a>
               </li>
@@ -62,12 +60,12 @@ export const Layout = ({ children }: { children: JSX.Element }) => {
             </ul>
             {user ? (
               <div className="dropdown dropdown-end dropdown-hover">
-                <label tabIndex={0} className="btn btn-primary m-1">
+                <label tabIndex={0} className="m-1 btn btn-primary">
                   {user.name}
                 </label>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu p-2 shadow bg-primary rounded-box w-52"
+                  className="p-2 shadow dropdown-content menu bg-primary rounded-box w-52"
                 >
                   <li>
                     <a onClick={() => deleteSessions()}>Logout</a>
@@ -85,7 +83,7 @@ export const Layout = ({ children }: { children: JSX.Element }) => {
       <main className="">
         <>{children}</>
       </main>
-      <footer className="footer p-10 bg-neutral text-neutral-content">
+      <footer className="p-10 footer bg-neutral text-neutral-content">
         <div>
           <span className="footer-title">Services</span>
           <a className="link link-hover">Branding</a>

@@ -1,4 +1,4 @@
-import { Client, Account, Models } from "appwrite";
+import { Client, Account, Models, Functions, Databases } from "appwrite";
 import { useState, useEffect } from "react";
 
 export const useAppwrite = () => {
@@ -6,6 +6,8 @@ export const useAppwrite = () => {
   const [account, setAccount] = useState<null | Account>(null);
   const [sessions, setSessions] = useState<null | Models.SessionList>(null);
   const [user, setUser] = useState<null | Models.User<any>>(null);
+  const [functions, setFunctions] = useState<null | Functions>(null);
+  const [databases, setDatabases] = useState<null | Databases>(null);
 
   const endpoint = process.env.NEXT_PUBLIC_APPWRITE_END_POINT;
   const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
@@ -28,6 +30,12 @@ export const useAppwrite = () => {
     if (!client) return;
     if (!account) {
       setAccount(new Account(client));
+    }
+    if (!functions) {
+      setFunctions(new Functions(client));
+    }
+    if (!databases) {
+      setDatabases(new Databases(client, "default"));
     }
   }, [client]);
 
@@ -59,7 +67,6 @@ export const useAppwrite = () => {
       // createSession();
     }
   };
-
   useEffect(() => {
     if (!account) return;
     getSessions(account);
@@ -94,5 +101,19 @@ export const useAppwrite = () => {
     }
   };
 
-  return { user, deleteSessions, createSession };
+  const createExecution = async (
+    functionId: string,
+    data?: string | undefined,
+    async?: boolean | undefined
+  ) => {
+    if (!functions) return null;
+    try {
+      const resp = await functions.createExecution(functionId, data, async);
+      console.log(resp);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { user, deleteSessions, createSession, createExecution };
 };

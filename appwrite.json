@@ -1,12 +1,12 @@
 {
-    "projectId": "62c8dfab991b7d0b8498",
-    "projectName": "  realtime-banner",
+    "projectId": "devrelsocial",
+    "projectName": "DevRel Social",
     "functions": [
         {
-            "$id": "twitter-profilepic",
-            "name": "twitter-profilepic",
+            "$id": "twitter",
+            "name": "twitter",
             "runtime": "node-16.0",
-            "path": "functions/twitter-profilepic",
+            "path": "functions/twitter",
             "entrypoint": "src/index.js",
             "ignore": [
                 "node_modules",

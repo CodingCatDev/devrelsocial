@@ -1,6 +1,6 @@
 {
-  "name": "twitter-profile-pic",
-  "version": "0.1.0",
+  "name": "devrelsocial",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,11 +14,14 @@
     "daisyui": "^2.19.0",
     "next": "12.2.2",
     "next-seo": "^5.4.0",
+    "oauth": "^0.9.15",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@types/node": "18.0.4",
+    "@types/oauth": "^0.9.1",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.7",
