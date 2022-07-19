@@ -1,21 +1,18 @@
 {
-    "projectId": "devrelsocial",
-    "projectName": "DevRel Social",
-    "functions": [
-        {
-            "$id": "twitter",
-            "name": "twitter",
-            "runtime": "node-16.0",
-            "path": "functions/twitter",
-            "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
-            "execute": [],
-            "events": [],
-            "schedule": "",
-            "timeout": 15
-        }
-    ]
+  "projectId": "devrelsocial",
+  "projectName": "DevRel Social",
+  "functions": [
+    {
+      "$id": "twitter-oauth-request-token",
+      "name": "twitter-oauth-request-token",
+      "runtime": "node-16.0",
+      "path": "functions/twitter-oauth-request-token",
+      "entrypoint": "lib/twitter-oauth-request-token/src/index.js",
+      "ignore": ["node_modules", ".npm", ".env"],
+      "execute": ["role:all"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15
+    }
+  ]
 }

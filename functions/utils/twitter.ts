@@ -1,25 +1,23 @@
-import { NextApiRequest, NextApiResponse } from "next";
+// import { AppwriteRequest, AppwriteResponse } from "../models/general";
+
 import { OAuth } from "oauth";
 import * as nodeUrl from "url";
 
-if (!process.env.TWITTER_API_KEY || !process.env.TWITTER_API_SECRET) {
-  throw new Error("Missing Twitter consumer key");
-}
+export const getOAuthRequestToken = async (req: any, res: any) => {
+  if (!req.env.TWITTER_API_KEY || !req.env.TWITTER_API_SECRET) {
+    throw new Error("Missing Twitter consumer key");
+  }
 
-const oa = new OAuth(
-  "https://api.twitter.com/oauth/request_token",
-  "https://api.twitter.com/oauth/access_token",
-  process.env.TWITTER_API_KEY,
-  process.env.TWITTER_API_SECRET,
-  "1.0A",
-  null,
-  "HMAC-SHA1"
-);
+  const oa = new OAuth(
+    "https://api.twitter.com/oauth/request_token",
+    "https://api.twitter.com/oauth/access_token",
+    req.env.TWITTER_API_KEY,
+    req.env.TWITTER_API_SECRET,
+    "1.0A",
+    null,
+    "HMAC-SHA1"
+  );
 
-export const getOAuthRequestToken = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
   oa.getOAuthRequestToken(function (
     error,
     oAuthToken,
@@ -42,10 +40,20 @@ export const getOAuthRequestToken = async (
   });
 };
 
-export const getOAuthAccessToken = (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+export const getOAuthAccessToken = (req: any, res: any) => {
+  if (!req.env.TWITTER_API_KEY || !req.env.TWITTER_API_SECRET) {
+    throw new Error("Missing Twitter consumer key");
+  }
+
+  const oa = new OAuth(
+    "https://api.twitter.com/oauth/request_token",
+    "https://api.twitter.com/oauth/access_token",
+    req.env.TWITTER_API_KEY,
+    req.env.TWITTER_API_SECRET,
+    "1.0A",
+    null,
+    "HMAC-SHA1"
+  );
   oa.getOAuthRequestToken(function (
     error,
     oAuthToken,

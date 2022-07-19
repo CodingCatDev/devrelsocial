@@ -4,12 +4,7 @@ const Home: NextPage = () => {
   return (
     <>
       <section className="grid justify-center">
-        <button
-          className=" btn btn-accent"
-          onClick={() => (window.location.href = "/api/twitter")}
-        >
-          Add Twitter Access
-        </button>
+        Welcome to DevRel Social, your one stop shop for all things social!
       </section>
     </>
   );

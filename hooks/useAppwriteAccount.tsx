@@ -11,6 +11,12 @@ export const useAppwrite = () => {
 
   const endpoint = process.env.NEXT_PUBLIC_APPWRITE_END_POINT;
   const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
+  const auth0BaseURL = process.env.NEXT_PUBLIC_AUTH0_ISSUER_BASE_URL;
+
+  if (!endpoint || !projectId || !auth0BaseURL) {
+    //Break build to force env variable addition.
+    throw "Missing required env variables";
+  }
 
   // Initialize Client
   useEffect(() => {
@@ -58,10 +64,9 @@ export const useAppwrite = () => {
 
   const getSessions = async (account: Account) => {
     try {
-      console.log("getting sessions");
       const sessions = await account.getSessions();
-      console.log("sessions", sessions);
       setSessions(sessions);
+      console.log("sessions", sessions);
     } catch (error) {
       //failed to get sessoion go login
       // createSession();
@@ -92,7 +97,7 @@ export const useAppwrite = () => {
       await account.deleteSessions();
       setUser(null);
       setSessions(null);
-      const wnd = window.open("https://codingcatdev.us.auth0.com/v2/logout");
+      const wnd = window.open(`${auth0BaseURL}/v2/logout`);
       setTimeout(() => {
         wnd?.close();
       }, 1000);
@@ -100,6 +105,25 @@ export const useAppwrite = () => {
       throw error;
     }
   };
+
+  const createJWT = async () => {
+    if (!account) return null;
+    try {
+      return await account.createJWT();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const drsAccount = {
+    deleteSessions,
+    createSession,
+    createJWT,
+  };
+
+  /*
+   * Functions
+   */
 
   const createExecution = async (
     functionId: string,
@@ -115,5 +139,11 @@ export const useAppwrite = () => {
     }
   };
 
-  return { user, deleteSessions, createSession, createExecution };
+  const drsFunctions = {
+    deleteSessions,
+    createSession,
+    createExecution,
+  };
+
+  return { user, drsAccount, drsFunctions };
 };

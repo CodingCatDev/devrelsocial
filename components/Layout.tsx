@@ -1,40 +1,29 @@
 import { useAppwrite } from "@/hooks/useAppwriteAccount";
-
+import Link from "next/link";
 export const Layout = ({ children }: { children: JSX.Element }) => {
-  const { user, deleteSessions, createSession } = useAppwrite();
-
+  const { user, drsAccount } = useAppwrite();
   return (
     <div className="grid gap-1 m-1 lg:m-4 lg:gap-4">
       <header>
         <div className="navbar bg-base-100">
-          <div className="flex-none">
-            <button className="btn btn-square btn-ghost">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-5 h-5 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
-            </button>
-          </div>
           <div className="flex-1">
             <a className="text-xl normal-case btn btn-ghost">Dev Rel Social</a>
           </div>
-          <div className="flex-none">
+          <div className="flex-1">
             <ul className="p-0 menu menu-horizontal">
-              <li>
-                <a>Item 1</a>
+              <li className="hidden lg:block">
+                <Link href="/twitter">
+                  <a className="text-xl normal-case btn btn-ghost">Twitter</a>
+                </Link>
               </li>
-              <li key="0">
+              <li className="hidden lg:block">
+                <Link href="/linkedin">
+                  <a className="text-xl normal-case btn btn-ghost">LinkedIn</a>
+                </Link>
+              </li>
+              <li key="0" className="block lg:hidden">
                 <a>
-                  Parent
+                  Socials
                   <svg
                     className="fill-current"
                     xmlns="http://www.w3.org/2000/svg"
@@ -47,17 +36,21 @@ export const Layout = ({ children }: { children: JSX.Element }) => {
                 </a>
                 <ul className="p-2 bg-base-100">
                   <li>
-                    <a>Submenu 1</a>
+                    <Link href="/twitter">
+                      <a>Twitter</a>
+                    </Link>
+                    <Link href="/linkedin">
+                      <a>LinkedIn</a>
+                    </Link>
                   </li>
                   <li>
                     <a>Submenu 2</a>
                   </li>
                 </ul>
               </li>
-              <li>
-                <a>Item 3</a>
-              </li>
             </ul>
+          </div>
+          <div className="flex-none">
             {user ? (
               <div className="dropdown dropdown-end dropdown-hover">
                 <label tabIndex={0} className="m-1 btn btn-primary">
@@ -68,12 +61,15 @@ export const Layout = ({ children }: { children: JSX.Element }) => {
                   className="p-2 shadow dropdown-content menu bg-primary rounded-box w-52"
                 >
                   <li>
-                    <a onClick={() => deleteSessions()}>Logout</a>
+                    <a onClick={() => drsAccount.deleteSessions()}>Logout</a>
                   </li>
                 </ul>
               </div>
             ) : (
-              <a className="btn btn-primary" onClick={() => createSession()}>
+              <a
+                className="btn btn-primary"
+                onClick={() => drsAccount.createSession()}
+              >
                 Login
               </a>
             )}
