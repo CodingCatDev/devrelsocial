@@ -2,6 +2,7 @@ import { useAppwrite } from "@/hooks/useAppwriteAccount";
 import Link from "next/link";
 export const Layout = ({ children }: { children: JSX.Element }) => {
   const { user, drsAccount } = useAppwrite();
+  console.log(user);
   return (
     <div className="grid gap-1 m-1 lg:m-4 lg:gap-4">
       <header>

@@ -1,11 +1,9 @@
-import { getOAuthRequestToken } from "@/utils/twitter";
+import { getOAuthRequestToken } from "@/utils/twitter.server";
 import { NextApiRequest, NextApiResponse } from "next";
-
 const twitter = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  console.log(req.query);
-  getOAuthRequestToken(req, res);
+  await getOAuthRequestToken(req, res);
 };
 export default twitter;
