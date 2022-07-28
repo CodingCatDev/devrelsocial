@@ -11,11 +11,18 @@ export const useTwitter = ({ jwt }: { jwt: string | undefined }) => {
 
   const getSettings = async () => {
     const settings = (await (
-      await fetch(`/api/twitter/v1/accountSettings?jwt=${jwt}`)
+      await fetch(`/api/twitter/v1/verifyCredentials?jwt=${jwt}`)
     ).json()) as unknown as UserV1;
     console.log(settings);
     setSettings(settings);
   };
 
-  return { settings };
+  const getProfileBanner = async () => {
+    const settings = (await (
+      await fetch(`/api/twitter/v1/userProfileBannerSizes?jwt=${jwt}`)
+    ).json()) as unknown as UserV1;
+    console.log(settings);
+  };
+
+  return { settings, getProfileBanner };
 };
