@@ -1,39 +1,17 @@
 import { useAppwrite } from "@/hooks/useAppwriteAccount";
+import { useTwitter } from "@/hooks/useTwitter";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { UserV1 } from "twitter-api-v2";
-import { Navigation } from "@/components/Dashboard/Navigation";
-import { Home } from "@/components/Dashboard/Home";
+import { Navigation } from "@/components/Twitter/Dashboard/Navigation";
+import { Home } from "@/components/Twitter/Dashboard/Home";
+import { Layout } from "@/components/Layout/Layout";
 
 const Twitter: NextPage = () => {
   const { user, drsAccount } = useAppwrite();
-  const [jwt, setJwt] = useState<string>();
-  const [settings, setSettings] = useState<UserV1 | undefined>();
-  useEffect(() => {
-    if (user && drsAccount) {
-      getJwt();
-    }
-  }, [user]);
+  const { settings } = useTwitter({ jwt: drsAccount.jwt });
 
-  useEffect(() => {
-    if (!jwt) return;
-    getSettings();
-  }, [jwt]);
-
-  const getJwt = async () => {
-    const res = await drsAccount.createJWT();
-    setJwt(res?.jwt);
-  };
-  const getSettings = async () => {
-    const settings = (await (
-      await fetch(`/api/twitter/v1/accountSettings?jwt=${jwt}`)
-    ).json()) as unknown as UserV1;
-    console.log(settings);
-    setSettings(settings);
-  };
   const redirect = async () => {
-    if (jwt) {
-      window.location.href = `/api/twitter?jwt=${jwt}`;
+    if (drsAccount?.jwt) {
+      window.location.href = `/api/twitter?jwt=${drsAccount.jwt}`;
     } else {
       alert("no jwt, user not set");
     }
@@ -55,12 +33,16 @@ const Twitter: NextPage = () => {
     );
   };
 
+  if (!user) {
+    return <>Loading...</>;
+  }
+
   if (!settings) {
     return showAuthTwitter();
   }
 
   return (
-    <>
+    <Layout user={user} drsAccount={drsAccount}>
       <div className="min-h-full">
         <div className="py-10">
           <div className="max-w-3xl px-4 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
@@ -68,12 +50,12 @@ const Twitter: NextPage = () => {
               <Navigation />
             </div>
             <main className="py-2 lg:col-span-9">
-              <Home settings={settings} />
+              <Home settings={settings} drsAccount={drsAccount} />
             </main>
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

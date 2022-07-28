@@ -1,7 +1,17 @@
 import Image from "next/image";
 import { UserV1 } from "twitter-api-v2";
 
-export const Home = ({ settings }: { settings: UserV1 }) => {
+export const Home = ({
+  settings,
+  drsAccount,
+}: {
+  settings: UserV1;
+  drsAccount: {
+    deleteSessions: () => Promise<null | undefined>;
+    createSession: () => Promise<void>;
+    jwt: string | undefined;
+  };
+}) => {
   return (
     <div className="overflow-hidden rounded-lg shadow bg-base-200">
       <div className="px-4 py-5 sm:p-6">

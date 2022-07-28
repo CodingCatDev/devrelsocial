@@ -1,11 +1,19 @@
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 export const Navigation = () => {
+  const router = useRouter();
+  console.log(router);
   return (
     <nav aria-label="Sidebar" className="sticky divide-y divide-gray-300 top-4">
       <div className="my-2 space-y-1">
-        <Link href="/twitter/dashboard">
-          <a className="flex justify-between btn btn-active">
+        <Link href="/twitter">
+          <a
+            className={`flex justify-between btn ${
+              router.asPath.split("/").at(-1) === "twitter"
+                ? "btn-active"
+                : "btn-ghost"
+            }`}
+          >
             <span className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -26,8 +34,41 @@ export const Navigation = () => {
             </span>
           </a>
         </Link>
+        <Link href="/twitter/real-time-banner">
+          <a
+            className={`flex justify-between btn ${
+              router.asPath.split("/").at(-1) === "real-time-banner"
+                ? "btn-active"
+                : "btn-ghost"
+            }`}
+          >
+            <span className="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="flex-shrink-0 w-6 h-6 mr-3 -ml-1 text-base-content group-hover:text-base-100"
+              >
+                <path
+                  xmlns="http://www.w3.org/2000/svg"
+                  d="M0 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm11 9-3-3-6 6h16l-5-5-2 2zm4-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                />
+              </svg>
+              <span className="truncate">Real Time Banner</span>
+            </span>
+          </a>
+        </Link>
         <Link href="/twitter/public">
-          <a className="flex justify-between btn btn-ghost">
+          <a
+            className={`flex justify-between btn ${
+              router.asPath.split("/").at(-1) === "public"
+                ? "btn-active"
+                : "btn-ghost"
+            }`}
+          >
+            {" "}
             <span className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

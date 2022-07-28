@@ -1,13 +1,26 @@
-import { useAppwrite } from "@/hooks/useAppwriteAccount";
 import Link from "next/link";
-export const Layout = ({ children }: { children: JSX.Element }) => {
-  const { user, drsAccount } = useAppwrite();
+import { Models } from "node-appwrite";
+import { Footer } from "./Footer";
+
+export const Layout = ({
+  children,
+  user,
+  drsAccount,
+}: {
+  children: JSX.Element;
+  user: Models.User<any> | null;
+  drsAccount: {
+    deleteSessions: () => Promise<null | undefined>;
+    createSession: () => Promise<void>;
+    jwt: string | undefined;
+  };
+}) => {
   return (
     <div className="drawer">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="flex flex-col drawer-content">
         <header>
-          <div className="navbar bg-base-100">
+          <div className="navbar bg-base-300">
             <div className="flex-none lg:hidden">
               <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
                 <svg
@@ -102,28 +115,7 @@ export const Layout = ({ children }: { children: JSX.Element }) => {
         <main className="flex-1">
           <>{children}</>
         </main>
-        <footer className="p-10 footer bg-neutral text-neutral-content">
-          <div>
-            <span className="footer-title">Services</span>
-            <a className="link link-hover">Branding</a>
-            <a className="link link-hover">Design</a>
-            <a className="link link-hover">Marketing</a>
-            <a className="link link-hover">Advertisement</a>
-          </div>
-          <div>
-            <span className="footer-title">Company</span>
-            <a className="link link-hover">About us</a>
-            <a className="link link-hover">Contact</a>
-            <a className="link link-hover">Jobs</a>
-            <a className="link link-hover">Press kit</a>
-          </div>
-          <div>
-            <span className="footer-title">Legal</span>
-            <a className="link link-hover">Terms of use</a>
-            <a className="link link-hover">Privacy policy</a>
-            <a className="link link-hover">Cookie policy</a>
-          </div>
-        </footer>
+        <Footer />
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-3" className="drawer-overlay"></label>

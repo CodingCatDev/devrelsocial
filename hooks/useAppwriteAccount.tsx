@@ -8,6 +8,7 @@ export const useAppwrite = () => {
   const [user, setUser] = useState<null | Models.User<any>>(null);
   const [functions, setFunctions] = useState<null | Functions>(null);
   const [databases, setDatabases] = useState<null | Databases>(null);
+  const [jwt, setJwt] = useState<string | undefined>();
 
   const endpoint = process.env.NEXT_PUBLIC_APPWRITE_END_POINT;
   const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
@@ -48,6 +49,16 @@ export const useAppwrite = () => {
   /*
    * Account Session Tracking
    */
+
+  useEffect(() => {
+    if (user && drsAccount) {
+      getJwt();
+    }
+  }, [user]);
+  const getJwt = async () => {
+    const res = await createJWT();
+    setJwt(res?.jwt);
+  };
 
   const createSession = async () => {
     if (!account) return;
@@ -117,7 +128,7 @@ export const useAppwrite = () => {
   const drsAccount = {
     deleteSessions,
     createSession,
-    createJWT,
+    jwt,
   };
 
   /*
