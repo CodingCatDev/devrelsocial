@@ -4,16 +4,13 @@ import { databases } from "@/utils/appwrite.databases.server";
 import { NextApiRequest, NextApiResponse } from "next";
 import { OAuth } from "oauth";
 import * as nodeUrl from "url";
-
-if (!process.env.TWITTER_API_KEY || !process.env.TWITTER_API_SECRET) {
-  throw new Error("Missing Twitter consumer key");
-}
+import { config } from "@/config/twitter";
 
 const oa = new OAuth(
   "https://api.twitter.com/oauth/request_token",
   "https://api.twitter.com/oauth/access_token",
-  process.env.TWITTER_API_KEY,
-  process.env.TWITTER_API_SECRET,
+  config.twitterApiKey,
+  config.twitterApiSecret,
   "1.0A",
   null,
   "HMAC-SHA1"

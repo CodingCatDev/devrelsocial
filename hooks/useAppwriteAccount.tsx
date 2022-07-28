@@ -66,7 +66,6 @@ export const useAppwrite = () => {
     try {
       const sessions = await account.getSessions();
       setSessions(sessions);
-      console.log("sessions", sessions);
     } catch (error) {
       //failed to get sessoion go login
       // createSession();
@@ -142,7 +141,7 @@ export const useAppwrite = () => {
   const drsFunctions = {
     deleteSessions,
     createSession,
-    createExecution,
+    // createExecution,
   };
 
   return { user, drsAccount, drsFunctions };
