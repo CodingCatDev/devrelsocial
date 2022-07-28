@@ -7,7 +7,6 @@ const twitter = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    // Validate user
     const roClient = await getReadOnlyClient({ req, res });
     const twitterUser = await roClient.v1.verifyCredentials();
     res.status(200).json(

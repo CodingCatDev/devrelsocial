@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserV1 } from "twitter-api-v2";
+import { UserV1, ProfileBannerSizeV1 } from "twitter-api-v2";
 
 export const useTwitter = ({ jwt }: { jwt: string | undefined }) => {
   const [settings, setSettings] = useState<UserV1 | undefined>();
@@ -18,10 +18,9 @@ export const useTwitter = ({ jwt }: { jwt: string | undefined }) => {
   };
 
   const getProfileBanner = async () => {
-    const settings = (await (
+    return (await (
       await fetch(`/api/twitter/v1/userProfileBannerSizes?jwt=${jwt}`)
-    ).json()) as unknown as UserV1;
-    console.log(settings);
+    ).json()) as unknown as ProfileBannerSizeV1;
   };
 
   return { settings, getProfileBanner };

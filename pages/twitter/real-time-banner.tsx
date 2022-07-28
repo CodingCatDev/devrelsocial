@@ -7,7 +7,10 @@ import { RealTimeBanner } from "@/components/Twitter/Dashboard/RealTimeBanner";
 
 const Twitter: NextPage = () => {
   const { user, drsAccount } = useAppwrite();
-  const { settings } = useTwitter({ jwt: drsAccount.jwt });
+
+  if (!drsAccount?.jwt) {
+    return <>Loading...</>;
+  }
 
   return (
     <Layout user={user} drsAccount={drsAccount}>
