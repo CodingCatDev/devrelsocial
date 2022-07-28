@@ -37,10 +37,6 @@ const Twitter: NextPage = () => {
     return <>Loading...</>;
   }
 
-  if (!settings) {
-    return showAuthTwitter();
-  }
-
   return (
     <Layout user={user} drsAccount={drsAccount}>
       <div className="min-h-full">
@@ -50,7 +46,11 @@ const Twitter: NextPage = () => {
               <Navigation />
             </div>
             <main className="py-2 lg:col-span-9">
-              <Home settings={settings} drsAccount={drsAccount} />
+              {!settings ? (
+                showAuthTwitter()
+              ) : (
+                <Home settings={settings} drsAccount={drsAccount} />
+              )}
             </main>
           </div>
         </div>
