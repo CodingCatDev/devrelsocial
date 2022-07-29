@@ -20,6 +20,7 @@
     "oauth": "^0.9.15",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "twitter-api-v2": "^1.12.3",
     "url": "^0.11.0"
   },
   "devDependencies": {

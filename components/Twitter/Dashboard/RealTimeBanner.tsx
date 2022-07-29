@@ -24,16 +24,14 @@ export const RealTimeBanner = ({
     getProfileBanner().then((b) => setProfileBanner(b));
   }, []);
 
-  if (!profileBanner) {
-    <> Loading...</>;
-  }
-
   return (
     <>
       <div className="flex flex-col gap-4">
         {profileBanner?.sizes?.["1500x500"]?.url && (
           <div className="flex flex-col">
-            <h2>Current Banner</h2>
+            <h2 className="p-2 text-3xl text-primary-content bg-primary">
+              Showing on Twitter
+            </h2>
             <div className="overflow-hidden shadow bg-base-200">
               <Image
                 src={profileBanner?.sizes["1500x500"].url}
@@ -45,7 +43,6 @@ export const RealTimeBanner = ({
           </div>
         )}
 
-        <RealTimeBannerForm />
         <div>
           <h2 className="mb-2 text-2xl text-center">
             Select a banner template below{" "}
@@ -197,6 +194,22 @@ export const RealTimeBanner = ({
           </div>
         )}
       </div>
+      {profileBanner?.sizes?.["1500x500"]?.url && (
+        <div className="flex flex-col">
+          <h2 className="p-2 text-3xl text-primary-content bg-primary">
+            New Banner
+          </h2>
+          <div className="overflow-hidden shadow bg-base-200">
+            <Image
+              src={profileBanner?.sizes["1500x500"].url}
+              width={profileBanner?.sizes["1500x500"].w}
+              height={profileBanner?.sizes["1500x500"].h}
+              alt="profile banner image"
+            />
+          </div>
+        </div>
+      )}
+      <RealTimeBannerForm />
     </>
   );
 };

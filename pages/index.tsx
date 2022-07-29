@@ -4,9 +4,7 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   const { user, drsAccount } = useAppwrite();
-  if (!user) {
-    return <>Loading...</>;
-  }
+
   return (
     <Layout user={user} drsAccount={drsAccount}>
       <section className="grid justify-center">

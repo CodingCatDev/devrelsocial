@@ -38,17 +38,19 @@ export const Home = ({
                   <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
                 </svg>
                 <div className="flex-shrink-0 block text-base font-semibold cursor-pointer h-14 w-14 hover:underline">
-                  <Image
-                    width={48}
-                    height={48}
-                    className="w-48 h-48 overflow-hidden rounded-full bg-primary"
-                    src={settings?.profile_image_url_https?.replace(
-                      "_normal",
-                      ""
-                    )}
-                    alt="twitter profile image"
-                    unoptimized={true}
-                  />
+                  {settings?.profile_image_url_https && (
+                    <Image
+                      width={48}
+                      height={48}
+                      className="w-48 h-48 overflow-hidden rounded-full bg-primary"
+                      src={settings?.profile_image_url_https?.replace(
+                        "_normal",
+                        ""
+                      )}
+                      alt="twitter profile image"
+                      unoptimized={true}
+                    />
+                  )}
                 </div>
 
                 <div>

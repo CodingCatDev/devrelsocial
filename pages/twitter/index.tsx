@@ -32,11 +32,6 @@ const Twitter: NextPage = () => {
       </section>
     );
   };
-
-  if (!user) {
-    return <>Loading...</>;
-  }
-
   return (
     <Layout user={user} drsAccount={drsAccount}>
       <div className="min-h-full">
@@ -46,7 +41,7 @@ const Twitter: NextPage = () => {
               <Navigation />
             </div>
             <main className="py-2 lg:col-span-9">
-              {!settings ? (
+              {!settings?.screen_name ? (
                 showAuthTwitter()
               ) : (
                 <Home settings={settings} drsAccount={drsAccount} />

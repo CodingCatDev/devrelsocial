@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 export const Navigation = () => {
   const router = useRouter();
-  console.log(router);
   return (
     <nav aria-label="Sidebar" className="sticky divide-y divide-gray-300 top-4">
       <div className="my-2 space-y-1">
