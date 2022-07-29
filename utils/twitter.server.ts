@@ -50,9 +50,7 @@ export const getOAuthRequestToken = async (
     if (!req || !req?.url) {
       return;
     }
-
     try {
-      await databases.getDocument("users", parsedJwt.userId);
       await databases.updateDocument("users", parsedJwt.userId, {
         oAuthToken,
         redirect: req.headers.referer,
@@ -61,6 +59,7 @@ export const getOAuthRequestToken = async (
       try {
         await databases.createDocument("users", parsedJwt.userId, {
           oAuthToken,
+          redirect: req.headers.referer,
         });
       } catch (error) {
         console.error(error);
