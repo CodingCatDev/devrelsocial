@@ -1,6 +1,27 @@
-export const RealTimeBannerForm = () => {
+import { BaseSyntheticEvent } from "react";
+import {
+  FieldValues,
+  FormState,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
+
+export const RealTimeBannerForm = ({
+  register,
+  handleSubmit,
+  watch,
+  formState,
+}: {
+  register: UseFormRegister<any>;
+  handleSubmit: (
+    e?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => Promise<void>;
+  watch?: UseFormWatch<FieldValues>;
+  formState?: FormState<FieldValues>;
+}) => {
   return (
-    <div className="px-4 py-5 sm:p-6 card bg-base-300">
+    <form onSubmit={handleSubmit} className="px-4 py-5 sm:p-6 card bg-base-300">
       <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
         <div className="sm:col-span-6">
           <div>
@@ -134,6 +155,7 @@ export const RealTimeBannerForm = () => {
                   type="checkbox"
                   className="toggle toggle-primary"
                   checked
+                  readOnly
                 />
                 <span className="label-text">Show Watermark</span>
               </label>
@@ -147,8 +169,9 @@ export const RealTimeBannerForm = () => {
             </label>
             <input
               type="text"
-              placeholder="Type here"
+              placeholder="Title Placeholder"
               className="w-full input input-bordered"
+              {...register("title", { required: false })}
             />
           </div>
         </div>
@@ -161,6 +184,7 @@ export const RealTimeBannerForm = () => {
               type="text"
               placeholder="Type here"
               className="w-full input input-bordered"
+              {...register("subtitle", { required: false })}
             />
           </div>
         </div>
@@ -173,10 +197,12 @@ export const RealTimeBannerForm = () => {
               type="text"
               placeholder="Type here"
               className="w-full input input-bordered"
+              {...register("followText", { required: false })}
             />
           </div>
         </div>
+        <input type="submit" className="btn btn-success" />
       </div>
-    </div>
+    </form>
   );
 };
