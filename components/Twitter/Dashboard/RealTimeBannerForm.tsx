@@ -41,8 +41,7 @@ export const RealTimeBannerForm = ({
                 <input
                   type="checkbox"
                   className="toggle toggle-primary"
-                  checked
-                  readOnly
+                  {...register("watermark", { required: false })}
                 />
                 <span className="label-text">Show Watermark</span>
               </label>

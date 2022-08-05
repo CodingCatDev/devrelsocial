@@ -25,7 +25,6 @@ export const RealTimeBannerSelector = ({
             height={500}
             width={1500}
             style={{
-              width: "100%",
               background: `rgb(${colorPicker.color.r},${colorPicker.color.g},${colorPicker.color.b})`,
               aspectRatio: "3 / 1",
             }}

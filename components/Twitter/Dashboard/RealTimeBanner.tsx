@@ -49,7 +49,6 @@ export const RealTimeBanner = ({
   const colorPicker = useColorPicker();
 
   useEffect(() => {
-    console.log(selectedBanner?.style?.background);
     if (selectedBanner?.cloudinaryImage && formUpdates) {
       let imagePreview = "";
       const image = selectedBanner.cloudinaryImage
@@ -330,6 +329,8 @@ export const RealTimeBanner = ({
                 width="1500"
                 height="500"
                 alt="profile banner image"
+                onLoadingComplete={(e) => console.log("loadingcomplete", e)}
+                onChange={(e) => console.log("change", e)}
               />
             </a>
           ) : (
@@ -340,7 +341,6 @@ export const RealTimeBanner = ({
               alt="profile banner image"
             />
           )}
-          {formUpdates.imagePreview}
         </div>
       </div>
 
