@@ -1,3 +1,4 @@
+import { ColorPickerType } from "@/hooks/useColorPicker";
 import Image from "next/image";
 import { Dispatch, useState } from "react";
 
@@ -6,14 +7,14 @@ export const RealTimeBannerSelector = ({
   src,
   setSelectedBanner,
   cloudinaryImage,
+  colorPicker,
 }: {
   title: string;
   src: string;
   setSelectedBanner: Dispatch<any>;
   cloudinaryImage: string;
+  colorPicker: ColorPickerType;
 }) => {
-  const [style, setStyle] = useState(styles[10]);
-
   return (
     <div className="card bg-base-300">
       <div className="card-body">
@@ -25,7 +26,7 @@ export const RealTimeBannerSelector = ({
             width={1500}
             style={{
               width: "100%",
-              background: style.background,
+              background: `rgb(${colorPicker.color.r},${colorPicker.color.g},${colorPicker.color.b})`,
               aspectRatio: "3 / 1",
             }}
           />
@@ -41,10 +42,13 @@ export const RealTimeBannerSelector = ({
                   tabIndex={-1}
                   key={i}
                   className={`inline-block w-4 h-4 mx-1 border border-gray-400 rounded-full cursor-pointer border-1 ${
-                    styles[i] === style ? "ring-4" : ""
+                    styles[i]?.background ===
+                    `rgb(${colorPicker.color.r},${colorPicker.color.r},${colorPicker.color.r})`
+                      ? "ring-4"
+                      : ""
                   }`}
-                  style={styles[i]}
-                  onClick={() => setStyle(styles[i])}
+                  style={{ background: styles[i].background }}
+                  onClick={() => colorPicker.setColor(styles[i].color)}
                 />
               ))}
             </div>
@@ -54,7 +58,6 @@ export const RealTimeBannerSelector = ({
               onClick={() =>
                 setSelectedBanner({
                   cloudinaryImage,
-                  style,
                 })
               }
             >
@@ -68,33 +71,81 @@ export const RealTimeBannerSelector = ({
 };
 
 const styles = [
-  { background: "rgb(79, 128, 238)" },
-  { background: "rgb(222, 61, 99)" },
-  { background: "rgb(67, 150, 42)" },
-  { background: "rgb(183, 107, 75)" },
-  { background: "rgb(17, 17, 17)" },
-  { background: "rgb(143, 55, 246)" },
   {
-    background:
-      "linear-gradient(135deg, rgb(0, 198, 255), rgb(0, 192, 255), rgb(0, 185, 255), rgb(0, 179, 255), rgb(0, 172, 255), rgb(0, 165, 255), rgb(0, 157, 255), rgb(0, 149, 255), rgb(0, 141, 255), rgb(0, 133, 255), rgb(0, 124, 255), rgb(0, 114, 255))",
+    background: "rgb(79, 128, 238)",
+    color: {
+      r: 79,
+      g: 128,
+      b: 238,
+      a: 100,
+    },
   },
   {
-    background:
-      "linear-gradient(135deg, rgb(22, 160, 133), rgb(43, 167, 128), rgb(62, 173, 123), rgb(80, 179, 116), rgb(99, 185, 108), rgb(117, 190, 100), rgb(137, 194, 92), rgb(157, 199, 84), rgb(178, 202, 76), rgb(199, 205, 70), rgb(221, 207, 65), rgb(244, 208, 63))",
+    background: "rgb(222, 61, 99)",
+    color: {
+      r: 222,
+      g: 61,
+      b: 99,
+      a: 100,
+    },
   },
   {
-    background: "linear-gradient(135deg, rgb(211, 131, 18), rgb(168, 50, 121))",
+    background: "rgb(67, 150, 42)",
+    color: {
+      r: 67,
+      g: 150,
+      b: 42,
+      a: 100,
+    },
   },
   {
-    background:
-      "linear-gradient(135deg, rgb(123, 67, 151), rgb(138, 62, 148), rgb(151, 56, 143), rgb(164, 49, 137), rgb(176, 42, 129), rgb(187, 34, 120), rgb(196, 25, 110), rgb(204, 17, 99), rgb(211, 12, 88), rgb(216, 16, 75), rgb(219, 25, 62), rgb(220, 36, 48))",
+    background: "rgb(183, 107, 75)",
+    color: {
+      r: 183,
+      g: 107,
+      b: 75,
+      a: 100,
+    },
   },
   {
-    background:
-      "linear-gradient(135deg, rgb(222, 97, 97), rgb(224, 87, 105), rgb(224, 77, 115), rgb(222, 68, 126), rgb(218, 61, 138), rgb(211, 56, 152), rgb(201, 56, 166), rgb(186, 59, 181), rgb(167, 64, 196), rgb(142, 71, 210), rgb(107, 79, 223), rgb(38, 87, 235))",
+    background: "rgb(17, 17, 17)",
+    color: {
+      r: 17,
+      g: 17,
+      b: 17,
+      a: 100,
+    },
   },
   {
-    background:
-      "linear-gradient(135deg, rgb(36, 198, 220), rgb(0, 188, 219), rgb(0, 178, 218), rgb(0, 167, 216), rgb(0, 157, 213), rgb(0, 146, 209), rgb(0, 134, 204), rgb(0, 123, 197), rgb(36, 111, 190), rgb(56, 99, 180), rgb(70, 87, 169), rgb(81, 74, 157))",
+    background: "rgb(143, 55, 246)",
+    color: {
+      r: 143,
+      g: 55,
+      b: 246,
+      a: 100,
+    },
   },
+  // {
+  //   background:
+  //     "linear-gradient(135deg, rgb(0, 198, 255), rgb(0, 192, 255), rgb(0, 185, 255), rgb(0, 179, 255), rgb(0, 172, 255), rgb(0, 165, 255), rgb(0, 157, 255), rgb(0, 149, 255), rgb(0, 141, 255), rgb(0, 133, 255), rgb(0, 124, 255), rgb(0, 114, 255))",
+  // },
+  // {
+  //   background:
+  //     "linear-gradient(135deg, rgb(22, 160, 133), rgb(43, 167, 128), rgb(62, 173, 123), rgb(80, 179, 116), rgb(99, 185, 108), rgb(117, 190, 100), rgb(137, 194, 92), rgb(157, 199, 84), rgb(178, 202, 76), rgb(199, 205, 70), rgb(221, 207, 65), rgb(244, 208, 63))",
+  // },
+  // {
+  //   background: "linear-gradient(135deg, rgb(211, 131, 18), rgb(168, 50, 121))",
+  // },
+  // {
+  //   background:
+  //     "linear-gradient(135deg, rgb(123, 67, 151), rgb(138, 62, 148), rgb(151, 56, 143), rgb(164, 49, 137), rgb(176, 42, 129), rgb(187, 34, 120), rgb(196, 25, 110), rgb(204, 17, 99), rgb(211, 12, 88), rgb(216, 16, 75), rgb(219, 25, 62), rgb(220, 36, 48))",
+  // },
+  // {
+  //   background:
+  //     "linear-gradient(135deg, rgb(222, 97, 97), rgb(224, 87, 105), rgb(224, 77, 115), rgb(222, 68, 126), rgb(218, 61, 138), rgb(211, 56, 152), rgb(201, 56, 166), rgb(186, 59, 181), rgb(167, 64, 196), rgb(142, 71, 210), rgb(107, 79, 223), rgb(38, 87, 235))",
+  // },
+  // {
+  //   background:
+  //     "linear-gradient(135deg, rgb(36, 198, 220), rgb(0, 188, 219), rgb(0, 178, 218), rgb(0, 167, 216), rgb(0, 157, 213), rgb(0, 146, 209), rgb(0, 134, 204), rgb(0, 123, 197), rgb(36, 111, 190), rgb(56, 99, 180), rgb(70, 87, 169), rgb(81, 74, 157))",
+  // },
 ];

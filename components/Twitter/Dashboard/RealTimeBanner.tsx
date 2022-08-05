@@ -6,6 +6,7 @@ import { RealTimeBannerSelector } from "@/components/Twitter/Dashboard/RealTimeB
 import { RealTimeBannerForm } from "@/components/Twitter/Dashboard/RealTimeBannerForm";
 import { useForm } from "react-hook-form";
 import { rgbToHex } from "@/utils/general";
+import { useColorPicker } from "@/hooks/useColorPicker";
 
 interface IFormInput {
   showWaterMark: boolean;
@@ -45,6 +46,8 @@ export const RealTimeBanner = ({
     getProfileBanner().then((b) => setProfileBanner(b));
   }, []);
 
+  const colorPicker = useColorPicker();
+
   useEffect(() => {
     console.log(selectedBanner?.style?.background);
     if (selectedBanner?.cloudinaryImage && formUpdates) {
@@ -53,21 +56,14 @@ export const RealTimeBanner = ({
         .split("https://media.codingcat.dev/image/upload/")
         ?.at(1);
       if (image) {
-        const bg = selectedBanner?.style?.background
-          ?.slice(
-            selectedBanner?.style?.background.indexOf("(") + 1,
-            selectedBanner?.style?.background.indexOf(")")
-          )
-          .split(", ")
-          .map((s) => parseInt(s));
         imagePreview =
           "https://media.codingcat.dev/image/upload/" +
-          (bg &&
+          (colorPicker?.color &&
             `b_rgb:${rgbToHex(
-              bg?.at(0) || 0,
-              bg.at(1) || 0,
-              bg.at(2) || 0
-            ).replace("#", "")},`) +
+              colorPicker?.color?.r || 0,
+              colorPicker?.color?.g || 0,
+              colorPicker?.color?.b || 0
+            )},`) +
           "w_1500,h_500,c_fill,q_auto,f_auto/w_1200" +
           ",c_fit,co_rgb:ffffff,g_center,x_0,y_0,l_text:Source%20Sans%20Pro_52_line_spacing_10_semibold:" +
           (formUpdates.title || " ") +
@@ -160,24 +156,28 @@ export const RealTimeBanner = ({
           <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Static Center"
               src="/assets/realtime-banner/static-center.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Left Vertical"
               src="/assets/realtime-banner/left-vertical.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Followers Vertical"
               src="/assets/realtime-banner/followers-vertical.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Combo 1"
               src="/assets/realtime-banner/combo-1.png"
@@ -188,24 +188,28 @@ export const RealTimeBanner = ({
           <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Static Left"
               src="/assets/realtime-banner/static-left.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Static Right"
               src="/assets/realtime-banner/static-right.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Static Minimal"
               src="/assets/realtime-banner/static-minimal.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Static Center"
               src="/assets/realtime-banner/static-center.png"
@@ -216,24 +220,28 @@ export const RealTimeBanner = ({
           <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Simple Center"
               src="/assets/realtime-banner/simple-center.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Left Right"
               src="/assets/realtime-banner/left-right.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Left Vertical"
               src="/assets/realtime-banner/left-vertical.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Right Right"
               src="/assets/realtime-banner/right-right.png"
@@ -244,24 +252,28 @@ export const RealTimeBanner = ({
           <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Followers Center"
               src="/assets/realtime-banner/followers-center.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Followers Vertical"
               src="/assets/realtime-banner/followers-vertical.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Combo 1"
               src="/assets/realtime-banner/combo-1.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Combo 2"
               src="/assets/realtime-banner/combo-2.png"
@@ -272,24 +284,28 @@ export const RealTimeBanner = ({
           <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Countdown 1"
               src="/assets/realtime-banner/countdown1.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Countdown 2"
               src="/assets/realtime-banner/countdown2.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Timer 1"
               src="/assets/realtime-banner/timer1.png"
             />
             <RealTimeBannerSelector
               setSelectedBanner={setSelectedBanner}
+              colorPicker={colorPicker}
               cloudinaryImage="https://media.codingcat.dev/image/upload/devrelsocial/templates/static.png"
               title="Timer 2"
               src="/assets/realtime-banner/timer2.png"
@@ -324,12 +340,14 @@ export const RealTimeBanner = ({
               alt="profile banner image"
             />
           )}
+          {formUpdates.imagePreview}
         </div>
       </div>
 
       <RealTimeBannerForm
         register={register}
         handleSubmit={handleSubmit(mySubmit)}
+        colorPicker={colorPicker}
       />
     </>
   );

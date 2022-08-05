@@ -4,5 +4,5 @@ export const componentToHex = (c: number) => {
 };
 
 export const rgbToHex = (r: number, g: number, b: number) => {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  return componentToHex(r) + componentToHex(g) + componentToHex(b);
 };
