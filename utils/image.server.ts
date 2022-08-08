@@ -82,10 +82,6 @@ export const generateMainImage = async function (imageInput: BannerImageInput) {
   // ctx.font = "95px AppleEmoji";
   // ctx.fillText(emoji, 85, 700);
 
-  // Add our title text
-  ctx.font = "95px Nunito";
-  ctx.fillStyle = "white";
-
   const textWidgets = imageInput?.widgets?.filter(
     (w) => w?.type === DataType.text
   );
@@ -97,24 +93,26 @@ export const generateMainImage = async function (imageInput: BannerImageInput) {
       !textWidget?.value ||
       !textWidget?.top ||
       !textWidget?.left ||
-      !textWidget?.size
+      !textWidget?.size ||
+      !textWidget?.align
     ) {
       return;
     }
+    console.log("setting text", textWidget);
+    ctx.textAlign = textWidget.align as any; //TODO: alighn right off
+    ctx.fillStyle = "white"; // TODO: opposite color?
+    ctx.font = `${textWidget.size}px Nunito`;
 
     const { wordArray, totalLineHeight } = wrapText(
       ctx,
       textWidget?.value,
       textWidget?.left,
       textWidget?.top,
-      textWidget?.size,
-      100
+      1200,
+      textWidget.size
     );
-    // We will fill our text which is item[0] of our array, at coordinates [x, y]
-    // x will be item[1] of our array
-    // y will be item[2] of our array, minus the line height (wrappedText[1]), minus the height of the emoji (200px)
     wordArray?.forEach((word) => {
-      ctx.fillText(word.line, word.x, word.y - totalLineHeight - 200); // 200 is height of an emoji
+      ctx.fillText(word.line, word.x, word.y - totalLineHeight); // 200 is height of an emoji
     });
   });
   // Set canvas as to png
