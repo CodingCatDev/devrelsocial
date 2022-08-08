@@ -1,5 +1,5 @@
 import { useTwitter } from "@/hooks/useTwitter";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProfileBannerSizeV1 } from "twitter-api-v2";
 import Image from "next/image";
 import { RealTimeBannerSelector } from "@/components/Twitter/Dashboard/RealTimeBannerSelector";
@@ -79,6 +79,12 @@ export const RealTimeBanner = ({
       }
     }
   }, [formUpdates, selectedBanner]);
+
+  const pic = useRef();
+
+  useEffect(() => {
+    console.log("pic", pic);
+  }, [pic]);
 
   const mySubmit = (data: IFormInput) => alert(JSON.stringify(data));
 
@@ -329,8 +335,6 @@ export const RealTimeBanner = ({
                 width="1500"
                 height="500"
                 alt="profile banner image"
-                onLoadingComplete={(e) => console.log("loadingcomplete", e)}
-                onChange={(e) => console.log("change", e)}
               />
             </a>
           ) : (
