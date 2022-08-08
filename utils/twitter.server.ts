@@ -12,7 +12,11 @@ const oa = new OAuth(
   config.twitterApiKey,
   config.twitterApiSecret,
   "1.0A",
-  null,
+  `${
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://devrelsocial"
+  }/api/twitter/callback`,
   "HMAC-SHA1"
 );
 
