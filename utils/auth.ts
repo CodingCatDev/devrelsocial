@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export const parseJwt = (
   token: string
 ): { userId: string; session: string } => {
+  console.log("parsing token", token);
   return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 };
 

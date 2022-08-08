@@ -44,7 +44,7 @@ export const RealTimeBanner = ({
   useEffect(() => {
     if (!drsAccount) return;
     getProfileBanner().then((b) => setProfileBanner(b));
-  }, []);
+  }, [drsAccount]);
 
   const colorPicker = useColorPicker();
 
@@ -65,11 +65,11 @@ export const RealTimeBanner = ({
             )},`) +
           "w_1500,h_500,c_fill,q_auto,f_auto/w_1200" +
           ",c_fit,co_rgb:ffffff,g_center,x_0,y_0,l_text:Source%20Sans%20Pro_52_line_spacing_10_semibold:" +
-          (formUpdates.title || " ") +
+          encodeURIComponent(formUpdates.title || " ") +
           "/w_600,c_fit,co_rgb:ffffff,g_center,x_0,y_90,l_text:Source%20Sans%20Pro_48_line_spacing_-10_regular:" +
-          (formUpdates.subtitle || " ") +
+          encodeURIComponent(formUpdates.subtitle || " ") +
           "/w_400,c_fit,co_rgb:ffffff,g_south_east,x_110,y_80,l_text:Source%20Sans%20Pro_36_line_spacing_-10_semibold:" +
-          (formUpdates.followText || " ") +
+          encodeURIComponent(formUpdates.followText || " ") +
           "/" +
           image;
       }

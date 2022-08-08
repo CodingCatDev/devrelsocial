@@ -10,14 +10,15 @@ export const useTwitter = ({ jwt }: { jwt: string | undefined }) => {
   }, [jwt]);
 
   const getSettings = async () => {
+    if (!jwt) return;
     const settings = (await (
       await fetch(`/api/twitter/v1/verifyCredentials?jwt=${jwt}`)
     ).json()) as unknown as UserV1;
-    console.log(settings);
     setSettings(settings);
   };
 
   const getProfileBanner = async () => {
+    if (!jwt) return;
     return (await (
       await fetch(`/api/twitter/v1/userProfileBannerSizes?jwt=${jwt}`)
     ).json()) as unknown as ProfileBannerSizeV1;

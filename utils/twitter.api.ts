@@ -16,6 +16,9 @@ export const getReadOnlyClient = async ({
     "users",
     await getUserIdFromJwt({ req, res })
   );
+  if (!user) {
+    res.status(401).json("User Not Found");
+  }
   const twitterClient = new TwitterApi({
     appKey: config.twitterApiKey,
     appSecret: config.twitterApiSecret,
@@ -36,6 +39,9 @@ export const getReadWriteClient = async ({
     "users",
     await getUserIdFromJwt({ req, res })
   );
+  if (!user) {
+    res.status(401).json("User Not Found");
+  }
   const twitterClient = new TwitterApi({
     appKey: config.twitterApiKey,
     appSecret: config.twitterApiSecret,
