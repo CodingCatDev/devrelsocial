@@ -1,3 +1,4 @@
+import { BannerImageInput, DataId, DataType } from "@/models/banner";
 import { createCanvas, SKRSContext2D } from "@napi-rs/canvas"; // For canvas.
 
 // This function accepts 6 arguments:
@@ -34,7 +35,7 @@ export const wrapText = function (
     var testWidth = metrics.width;
     // If it's too long, then we start a new line
     if (testWidth > maxWidth && n > 0) {
-      wordArray.push([line, x, y]);
+      wordArray.push({ line, x, y });
       y += lineHeight;
       totalLineHeight += lineHeight;
       line = `${words[n]} `;
@@ -45,65 +46,77 @@ export const wrapText = function (
     }
     // Whenever all the words are done, we push whatever is left
     if (n === words.length - 1) {
-      wordArray.push([line, x, y]);
+      wordArray.push({ line, x, y });
     }
   }
 
   // And return the words in array, along with the total line height
   // which will be (totalLines - 1) * lineHeight
-  return [wordArray, totalLineHeight];
+  return { wordArray, totalLineHeight };
 };
 
-export const generateMainImage = async function ({
-  gradientColors,
-  articleName,
-  articleCategory,
-  emoji,
-}: {
-  gradientColors?: string[];
-  articleName: string;
-  articleCategory: string;
-  emoji: any;
-}) {
-  articleCategory = articleCategory.toUpperCase();
-  // gradientColors is an array [ c1, c2 ]
-  if (typeof gradientColors === "undefined") {
-    gradientColors = ["#ff067e", "#5e1286"]; // Backup values
-  }
-
+export const generateMainImage = async function (imageInput: BannerImageInput) {
   // Create canvas
   const canvas = createCanvas(1500, 500);
   const ctx = canvas.getContext("2d");
 
-  // Add gradient - we use createLinearGradient to do this TODO:pass in json?
+  // Add gradient - we use createLinearGradient to do this
   let grd = ctx.createLinearGradient(0, 0, 1500, 500);
-  grd.addColorStop(0, gradientColors[0]);
-  grd.addColorStop(1, gradientColors[1]);
+
+  const gradientWidget = imageInput?.widgets
+    ?.filter((w) => w?.type == DataType.background)
+    ?.at(0)?.data?.data;
+  console.log("setting gradient background colors", gradientWidget?.colors);
+  gradientWidget?.colors?.forEach((c, i) => {
+    grd.addColorStop(
+      ((1500 / gradientWidget?.colors.length) * (i + 1)) / 1500,
+      c
+    );
+  });
   ctx.fillStyle = grd;
   // Fill our gradient
   ctx.fillRect(0, 0, 1500, 500);
 
-  // Write our Emoji onto the canvas
-  ctx.fillStyle = "white";
-  ctx.font = "95px AppleEmoji";
-  ctx.fillText(emoji, 85, 700);
+  // // Write our Emoji onto the canvas
+  // ctx.fillStyle = "white";
+  // ctx.font = "95px AppleEmoji";
+  // ctx.fillText(emoji, 85, 700);
 
   // Add our title text
   ctx.font = "95px Nunito";
   ctx.fillStyle = "white";
-  let wrappedText = wrapText(ctx, articleName, 0, 500, 1200, 100) as any;
-  wrappedText[0]?.forEach(function (item: any) {
+
+  const textWidgets = imageInput?.widgets?.filter(
+    (w) => w?.type === DataType.text
+  );
+
+  textWidgets?.forEach((w) => {
+    const textWidget = w?.data;
+
+    if (
+      !textWidget?.value ||
+      !textWidget?.top ||
+      !textWidget?.left ||
+      !textWidget?.size
+    ) {
+      return;
+    }
+
+    const { wordArray, totalLineHeight } = wrapText(
+      ctx,
+      textWidget?.value,
+      textWidget?.left,
+      textWidget?.top,
+      textWidget?.size,
+      100
+    );
     // We will fill our text which is item[0] of our array, at coordinates [x, y]
     // x will be item[1] of our array
     // y will be item[2] of our array, minus the line height (wrappedText[1]), minus the height of the emoji (200px)
-    ctx.fillText(item[0], item[1], item[2] - wrappedText[1] - 200); // 200 is height of an emoji
+    wordArray?.forEach((word) => {
+      ctx.fillText(word.line, word.x, word.y - totalLineHeight - 200); // 200 is height of an emoji
+    });
   });
-
-  // Add our category text to the canvas
-  ctx.font = "50px InterMedium";
-  ctx.fillStyle = "rgba(255,255,255,0.8)";
-  ctx.fillText(articleCategory, 0, 500 - wrappedText[1] - 100); // 853 - 200 for emoji, -100 for line height of 1
-
   // Set canvas as to png
   try {
     return await canvas.encode("png");
