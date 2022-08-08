@@ -1,5 +1,5 @@
 import { getUserIdFromJwt } from "@/utils/auth";
-import { getReadOnlyClient } from "@/utils/twitter.api";
+import { getReadOnlyClient } from "@/utils/twitter.server";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const twitter = async (
