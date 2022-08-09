@@ -100,8 +100,8 @@ export const generateMainImage = async function (imageInput: BannerImageInput) {
     }
     console.log("setting text", textWidget);
     ctx.textAlign = textWidget.align as any; //TODO: alighn right off
-    ctx.fillStyle = "white"; // TODO: opposite color?
-    ctx.font = `${textWidget.size}px Nunito`;
+    ctx.fillStyle = textWidget?.color || "white"; // TODO: opposite color?
+    ctx.font = `${textWidget?.weight || ""} ${textWidget.size || ""}px Nunito`;
 
     const { wordArray, totalLineHeight } = wrapText(
       ctx,
