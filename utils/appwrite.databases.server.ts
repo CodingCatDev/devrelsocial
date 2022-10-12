@@ -2,7 +2,7 @@ import { Client, Databases } from "node-appwrite";
 import { config } from "@/config/appwrite";
 // Init SDK
 const client = new Client();
-const db = new Databases(client, "devrel-social-main");
+const db = new Databases(client);
 
 client
   .setEndpoint(config.endpoint) // Your API Endpoint

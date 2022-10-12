@@ -5,7 +5,7 @@ export const useAppwrite = () => {
   const [client, setClient] = useState<null | Client>(null);
   const [account, setAccount] = useState<null | Account>(null);
   const [sessions, setSessions] = useState<null | Models.SessionList>(null);
-  const [user, setUser] = useState<null | Models.User<any>>(null);
+  const [user, setUser] = useState<null | any>(null);
   const [functions, setFunctions] = useState<null | Functions>(null);
   const [databases, setDatabases] = useState<null | Databases>(null);
   const [jwt, setJwt] = useState<string | undefined>();
@@ -42,7 +42,7 @@ export const useAppwrite = () => {
       setFunctions(new Functions(client));
     }
     if (!databases) {
-      setDatabases(new Databases(client, "default"));
+      setDatabases(new Databases(client));
     }
   }, [client]);
 
@@ -75,7 +75,7 @@ export const useAppwrite = () => {
 
   const getSessions = async (account: Account) => {
     try {
-      const sessions = await account.getSessions();
+      const sessions = await account.listSessions();
       setSessions(sessions);
     } catch (error) {
       //failed to get sessoion go login

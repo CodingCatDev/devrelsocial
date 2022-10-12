@@ -16,6 +16,7 @@ export const getReadOnlyClient = async ({
   res: NextApiResponse;
 }) => {
   const user = await databases.getDocument<User>(
+    "devrel-social-main",
     "users",
     await getUserIdFromJwt({ req, res })
   );
@@ -39,6 +40,7 @@ export const getReadWriteClient = async ({
   res: NextApiResponse;
 }) => {
   const user = await databases.getDocument<User>(
+    "devrel-social-main",
     "users",
     await getUserIdFromJwt({ req, res })
   );
@@ -81,7 +83,6 @@ export const getOAuthRequestToken = async (
   if (!parseJwt || !parsedJwt?.userId) {
     res.redirect(`${req.headers.referer}?failed=true`);
   }
-
   oa.getOAuthRequestToken(async function (
     error,
     oAuthToken,
@@ -89,10 +90,10 @@ export const getOAuthRequestToken = async (
     results
   ) {
     if (error) {
-      console.error(error);
+      console.error('Error: getOAuthRequestToken', error);
       res.end(
         JSON.stringify({
-          message: "Error occured while getting access token",
+          message: "getOAuthRequestToken: Error occured while getting access token",
           error: error,
         })
       );
@@ -103,21 +104,31 @@ export const getOAuthRequestToken = async (
       return;
     }
     try {
-      await databases.updateDocument("users", parsedJwt.userId, {
-        oAuthToken,
-        redirect: req.headers.referer,
-      });
-    } catch (error) {
-      try {
-        await databases.createDocument("users", parsedJwt.userId, {
+      await databases.updateDocument(
+        "devrel-social-main",
+        "users",
+        parsedJwt.userId,
+        {
           oAuthToken,
           redirect: req.headers.referer,
-        });
+        }
+      );
+    } catch (error) {
+      try {
+        await databases.createDocument(
+          "devrel-social-main",
+          "users",
+          parsedJwt.userId,
+          {
+            oAuthToken,
+            redirect: req.headers.referer,
+          }
+        );
       } catch (error) {
         console.error(error);
         res.end(
           JSON.stringify({
-            message: "Error occured while creating user in database",
+            message: "getOAuthRequestToken: Error occured while creating user in database",
             error: error,
           })
         );
@@ -145,7 +156,7 @@ export const getOAuthAccessToken = (
       console.error(error);
       res.end(
         JSON.stringify({
-          message: "Error occured while getting access token",
+          message: "getOAuthAccessToken: Error occured while getting access token",
           error: error,
         })
       );
@@ -161,7 +172,7 @@ export const getOAuthAccessToken = (
           console.error(error);
           res.end(
             JSON.stringify({
-              message: "Error occured while getting access token",
+              message: "getOAuthAccessToken2: Error occured while getting access token",
               error: error,
             })
           );
@@ -170,9 +181,9 @@ export const getOAuthAccessToken = (
 
         try {
           const users = await databases.listDocuments<any>(
+            "devrel-social-main",
             "users",
-            [Query.equal("oAuthToken", urlObj.query.oauth_token as string)],
-            1
+            [Query.equal("oAuthToken", [urlObj.query.oauth_token as string])]
           );
           const original = users?.documents?.at(0);
 
@@ -185,17 +196,23 @@ export const getOAuthAccessToken = (
             );
             return;
           }
-          await databases.updateDocument("users", original?.$id, {
-            oAuthAccessToken,
-            oAuthAccessTokenSecret,
-          });
+
+          await databases.updateDocument(
+            "devrel-social-main",
+            "users",
+            original?.$id,
+            {
+              oAuthAccessToken,
+              oAuthAccessTokenSecret,
+            }
+          );
           console.log("redirect", original.redirect);
           res.redirect(original.redirect);
         } catch (error) {
           console.error(error);
           res.end(
             JSON.stringify({
-              message: "Error occured while creating user in database",
+              message: "getOAuthAccessToken2: Error occured while creating user in database",
               error: error,
             })
           );
